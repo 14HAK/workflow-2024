@@ -1,0 +1,83 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "tsconfigRootDir": "./",
+    "project": ["./tsconfig.json"]
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "eslint-plugin-node",
+    "eslint-plugin-require",
+    "import"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:node/recommended",
+    "plugin:prettier/recommended",
+    "airbnb-base",
+    "prettier"
+  ],
+  "rules": {
+    "no-throw-literal": "off",
+    "@typescript-eslint/no-throw-literal": "error",
+    "node/no-missing-import": "off",
+    "node/no-unsupported-features/es-syntax": [
+      "error",
+      {
+        "version": ">=13.0.0",
+        "ignores": ["modules"]
+      }
+    ],
+    "node/no-unpublished-import": [
+      "error",
+      {
+        "allowModules": ["module-alias"]
+      }
+    ],
+    "import/no-unresolved": "error",
+    // Essential rules
+
+    // Default: allow `warn` and `error`, but block others
+    "eslint-plugin-vue/no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-process-env": "off", // Allow process.env for configurations
+
+    // TypeScript-specific rules
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }], // Ignore unused vars starting with "_"
+    "@typescript-eslint/explicit-function-return-type": "off", // Optional return type annotations
+    "@typescript-eslint/no-explicit-any": "warn", // Warn on any usage
+
+    // Import rules
+    "import/order": ["error", { "newlines-between": "always" }], // Enforce import order
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["**/*.test.ts", "**/*.spec.ts"] }
+    ], // Allow test files to have dev dependencies
+    // Disallow all console.log statements
+    // Mongoose-specific suggestions
+    "no-empty-function": [
+      "error",
+      { "allow": ["arrowFunctions", "functions", "methods"] } // Allow empty constructors, useful in models
+    ],
+
+    // Node-specific rules
+    "no-buffer-constructor": "warn", // Discourage use of Buffer() constructor
+    "no-new-require": "error", // Disallow `new require()` syntax
+    "no-path-concat": "error", // Avoid path concatenation
+
+    // Prettier integration
+    "prettier/prettier": "error" // Prettier rules as ESLint errors
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  }
+}

@@ -1,24 +1,42 @@
 {
-  "name": "typescript",
+  "name": "ts_server_practice",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "practice project exercise",
+  "main": "server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon",
-    "build": "tsc"
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "lint": "eslint src/**/*.{js,ts}",
+    "lint:fix": "eslint src/**/*.{js,ts} --fix",
+    "prettier": "prettier --ignore-path .gitignore --write src/**/*.{js,ts,json}",
+    "prettier:format": "prettier --write src/**/*.{js,ts,json,md}"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Dulon_Mahadi",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "express": "^4.21.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "moment": "^2.30.1",
+    "mongoose": "^8.7.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.7.7",
+    "@types/node": "^22.8.1",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.11.0",
     "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
   }
 }

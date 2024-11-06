@@ -1,12 +1,46 @@
-import express, { Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Server } from 'http';
+import mongoose from 'mongoose';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+import envConfig from './app/config';
+import app from './app';
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, TypeScript with Node-Express!');
+let server: Server;
+
+process.on('uncaughtException', err => {
+  console.log('Uncaught Exception! shut down...');
+  console.log(err.name, err.message);
+  process.exit(1);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+const connect = async () => {
+  try {
+    await mongoose.connect(envConfig?.db_uri as string, {
+      serverSelectionTimeoutMS: 10000,
+    });
+
+    server = app.listen(envConfig?.port, () => {
+      console.log(`Server running on port: https://127.0.0.1:${envConfig?.port}`);
+    });
+    console.log('database connection success!');
+  } catch (error: unknown) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+connect();
+
+process.on('unhandledRejection', (reason: any, promise) => {
+  console.log('Unhandled Rejection! Shutting down...');
+  console.error(reason, promise);
+  server.close(() => {
+    process.exit(1);
+  });
+});
+
+process.on('SIGTERM', () => {
+  console.log('Sigterm Received! Shutting down gracefully.');
+  server.close(() => {
+    console.log('Process terminated');
+  });
 });
